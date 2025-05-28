@@ -1,6 +1,4 @@
-# CPLM
-Repository for Critical Period-Inspired Language Model
-
+# Critical Period-Inspired Language Model (CPLM)
 This page will provide codes or something related to our ACL2025 work!
 
 
