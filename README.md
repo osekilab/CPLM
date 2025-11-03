@@ -33,7 +33,10 @@
 
 
 ## 4. Evaluation with the pre-trained models
-For reproducibility, we report the Zorro accuracy for each seed during model training in AO-CHILDES.
+For reproducibility, we release the pre-trained model used in the experiment (trained on AO-CHILDES) and report the Zorro performance for each seed.
+
+* [All the pre-trained models with AO-CHILDES](https://drive.google.com/drive/folders/1An5KEoLAHrfjeIZ0ye9PUm2jPUaHjL2C?usp=drive_link)
+
 Regarding the evaluation script, it was created by modifying [UnMasked](https://github.com/phueb/UnMasked/) library's `score_model_from_repo.py` to change it from MLM to CLM. 
 After the initial setup of the original **Unmasked** repository is complete, replace and add the files listed below. Then, execute the subsequent command to perform a detailed evaluation of the pre-trained model **Zorro**.
 
