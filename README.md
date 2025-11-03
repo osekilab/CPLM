@@ -17,22 +17,14 @@
  git clone https://github.com/osekilab/CPLM.git
  cd CPLM
  ```
- ## 2. Create a virtual environment
- 
- ```bash
- uv venv .venv
- source .venv/bin/activate
- uv pip sync --requirement uv.lock
- ```
- 
- ## 3. Install the customized transformers in editable mode
+
+ ## 2. Install the customized transformers in editable mode
  ```bash
  uv pip install -e ./transformers
  ```
 
 
-
-## 4. Evaluation with the pre-trained models
+## 3. Evaluation with the pre-trained models
 For reproducibility, we release the pre-trained model used in the experiment (trained on AO-CHILDES) and report the Zorro performance for each seed.
 
 * [All the pre-trained models with AO-CHILDES](https://drive.google.com/drive/folders/1An5KEoLAHrfjeIZ0ye9PUm2jPUaHjL2C?usp=drive_link)
@@ -52,7 +44,7 @@ python scripts/score_model_from_repo.py --model_dir  models/seed0/DynamicLimit-E
 
 
 
-## Benchmark results on Zorro
+### Benchmark results on Zorro
 ### Seed = 0
 | Grammar Items | NoLimit | StaticLimit | DynamicLimit-Linear | DynamicLimit-Exp |
 | :--- | :--- | :--- | :--- | :--- |
