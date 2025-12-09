@@ -1,10 +1,6 @@
 # Critical Period-inspired Language Model (CPLM)
  This repository for our ACL2025 paper "[Developmentally-plausible Working Memory Shapes a Critical Period for Language Acquisition](https://aclanthology.org/2025.acl-long.462/)"
 
-## ChangeLog (Nov 2025)
-- Released the pre-trained models used in the experiments and evaluation scripts on Zorro.
-- The scripts used for model training are currently under maintenance and temporarily unavailable.
-
 ## 0. Prerequirments
  - python==3.10.12
  - uv==0.6.3
