@@ -1,26 +1,72 @@
 # Critical Period-inspired Language Model (CPLM)
  This repository for our ACL2025 paper "[Developmentally-plausible Working Memory Shapes a Critical Period for Language Acquisition](https://aclanthology.org/2025.acl-long.462/)"
 
-## 0. Prerequirments
- - python==3.10.12
- - uv==0.6.3
- - torch==1.12.1+cu113
- 
- 
- ## 1. Clone this repository
- 
+## 0. Prerequisites
+ - Python >= 3.10
+ - [uv](https://docs.astral.sh/uv/) (recommended) or pip
+ - PyTorch >= 1.12 (install with the CUDA version matching your environment)
+
+## 1. Clone this repository
+
  ```bash
  git clone https://github.com/osekilab/CPLM.git
  cd CPLM
  ```
 
- ## 2. Install the customized transformers in editable mode
- ```bash
- uv pip install -e ./transformers
- ```
+## 2. Set up the environment
 
+### With uv (recommended)
 
-## 3. Evaluation with the pre-trained models
+```bash
+uv venv --python 3.10
+source .venv/bin/activate
+uv pip install -r pyproject.toml
+uv pip install -e ./transformers
+```
+
+### With pip
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install torch  # install with appropriate CUDA version
+pip install datasets accelerate huggingface-hub evaluate tokenizers pandas tqdm scikit-learn tensorboard
+pip install -e ./transformers
+```
+
+## 3. Training
+
+Four training conditions are provided under `src/`:
+
+| Script | Model | Description |
+| :--- | :--- | :--- |
+| `src/NoLimit.py` | Standard GPT-2 | Baseline without ALiBi |
+| `src/StaticLimit.py` | GPT-2 + Static ALiBi | Fixed ALiBi slopes throughout training |
+| `src/DynamicLimit-Linear.py` | GPT-2 + Dynamic ALiBi (Linear) | ALiBi slopes decay linearly over epochs |
+| `src/DynamicLimit-Exp.py` | GPT-2 + Dynamic ALiBi (Exp) | ALiBi slopes decay exponentially over epochs |
+
+All models use the same architecture: 8 layers, 8 attention heads, 256 hidden dimensions.
+
+### Run training
+
+```bash
+# Run all four conditions
+bash train.sh
+
+# Or run individually (example: DynamicLimit-Exp with seed 0)
+python src/DynamicLimit-Exp.py \
+  --train_file data/sentences_with_age-ordered.txt \
+  --tokenizer_file childs_tokenizer/tokenizer.json \
+  --output_dir output/DynamicLimit-Exp \
+  --num_train_epochs 10 \
+  --per_device_train_batch_size 64 \
+  --max_seq_length 128 \
+  --seed 0
+```
+
+By default, 10% of the training data is held out for validation (`--validation_split_percentage 10`). To use a separate validation file, pass `--validation_file <path>`.
+
+## 4. Evaluation with the pre-trained models
 For reproducibility, we release the pre-trained model used in the experiment (trained on AO-CHILDES) and report the Zorro performance for each seed.
 
 * [All the pre-trained models with AO-CHILDES](https://drive.google.com/drive/folders/1An5KEoLAHrfjeIZ0ye9PUm2jPUaHjL2C?usp=drive_link)
@@ -121,4 +167,3 @@ If you use our code for your work, please cite:
     abstract = "Large language models possess general linguistic abilities but acquire language less efficiently than humans. This study proposes a method for integrating the developmental characteristics of working memory during the critical period, a stage when human language acquisition is particularly efficient, into the training process of language models. The proposed method introduces a mechanism that initially constrains working memory during the early stages of training and gradually relaxes this constraint in an exponential manner as learning progresses. Targeted syntactic evaluation shows that the proposed method outperforms conventional methods without memory constraints or with static memory constraints. These findings not only provide new directions for designing data-efficient language models but also offer indirect evidence supporting the role of the developmental characteristics of working memory as the underlying mechanism of the critical period in language acquisition."
 }
 ```
-
